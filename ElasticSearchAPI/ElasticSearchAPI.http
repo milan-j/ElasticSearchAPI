@@ -1,0 +1,6 @@
+@ElasticSearchAPI_HostAddress = http://localhost:7139
+
+GET {{ElasticSearchAPI_HostAddress}}/objecttext/
+Accept: application/json
+
+###
