@@ -27,7 +27,6 @@ namespace ElasticSearchAPI
                         .MatchOnlyText(o => o.Module)
                         .Text(o => o.Text, field => field.Fields(subFields => subFields
                             .Text(Language.Serbian.ToString().ToLower(), p => p.Analyzer(Language.Serbian.ToString().ToLower()))
-                            .Text(Language.English.ToString().ToLower(), p => p.Analyzer(Language.English.ToString().ToLower()))
                             // More language specific analyzers can be added if needed
                         )))));
         }
@@ -63,12 +62,35 @@ namespace ElasticSearchAPI
                 .Indices(Constants.OBJECT_TEST_INDEX_NAME)
                 .From(filter.From)
                 .Size(filter.Size)
-                .Query(q => q
-                    .Term(t => t
-                        .Field(x => x.TextTypeId)
-                        .Value(filter.TextTypeId))));
+                .Query(q => QDBudilder(q)));
 
             return response.Documents;
+
+            Elastic.Clients.Elasticsearch.QueryDsl.QueryDescriptor<ObjectTextData> QDBudilder(Elastic.Clients.Elasticsearch.QueryDsl.QueryDescriptor<ObjectTextData> q)
+            {
+                q = q.Term(t => TQDBudilderByTextTypeId(t, filter.TextTypeId));
+                filter.Keywords?.Where(k => !string.IsNullOrEmpty(k)).ToList().ForEach(keyword => q = q.MultiMatch(m => MMQDBudilderByText(m, keyword)));
+
+                return q;
+            }
+        }
+
+        protected Elastic.Clients.Elasticsearch.QueryDsl.TermQueryDescriptor<ObjectTextData> TQDBudilderByTextTypeId(Elastic.Clients.Elasticsearch.QueryDsl.TermQueryDescriptor<ObjectTextData> tqd, long filterValue)
+        {
+            return tqd
+                .Field(x => x.TextTypeId)
+                .Value(filterValue);
+        }
+
+        protected Elastic.Clients.Elasticsearch.QueryDsl.MultiMatchQueryDescriptor<ObjectTextData> MMQDBudilderByText(Elastic.Clients.Elasticsearch.QueryDsl.MultiMatchQueryDescriptor<ObjectTextData> mqd, string filterValue)
+        {
+            return mqd
+                .Fields(new Field[] { 
+                    Infer.Field<ObjectTextData>(f => f.Text),
+                    $"{nameof(ObjectTextData.Text).ToLower()}.{Language.Serbian.ToString().ToLower()}"
+                    //More language specific searches could be added if needed
+                })
+                .Query(filterValue);
         }
     }
 }
