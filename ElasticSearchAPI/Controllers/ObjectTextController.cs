@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ElasticSearchAPI.Models.ObjectText;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ElasticSearchAPI.Controllers
 {
@@ -35,9 +36,9 @@ namespace ElasticSearchAPI.Controllers
         /// Get all objects by applying filter.
         /// </summary>
         [HttpPost]
-        public IEnumerable<ObjectTextData> Post([FromBody] ObjectTextAPIFilter ObjectTextfilter)
+        public async Task<ObjectTextDataAPIResponse> Post([FromBody] ObjectTextAPIFilter ObjectTextfilter)
         {
-            throw new NotImplementedException();
+            return new ObjectTextDataAPIResponse { Objects = await ObjectTextService.GetDataByFilterAsync(ObjectTextfilter) };
         }
     }
 }

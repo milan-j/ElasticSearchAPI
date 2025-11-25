@@ -15,5 +15,10 @@ namespace ElasticSearchAPI
         /// Retrieves ObjectText by id.
         /// </summary>
         ObjectTextData? GetDataById(long id);
+
+        /// <summary>
+        /// Retrieves objects by filter.
+        /// </summary>
+        Task<IEnumerable<ObjectTextData>> GetDataByFilterAsync(ObjectTextAPIFilter filter);
     }
 }

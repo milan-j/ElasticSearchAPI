@@ -3,6 +3,13 @@
     /// <inheritdoc/>
     public class ObjectTextService : IObjectTextService
     {
+        private readonly IElasticService ElasticService;
+
+        public ObjectTextService(IElasticService elasticService)
+        {
+            ElasticService = elasticService;
+        }
+
         /// <inheritdoc/>
         public IEnumerable<ObjectTextData> GetAllData()
         {
@@ -66,5 +73,12 @@
         }
 
         public ObjectTextData? GetDataById(long id) => GetAllData().SingleOrDefault(o => o.ObjectId == id);
+
+        public async Task<IEnumerable<ObjectTextData>> GetDataByFilterAsync(ObjectTextAPIFilter filter)
+        {
+            var ids = await ElasticService.FindAsync(filter);
+
+            return GetAllData().Where(o => ids.Contains(o.ObjectId));
+        }
     }
 }

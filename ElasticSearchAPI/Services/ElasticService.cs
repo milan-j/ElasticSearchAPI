@@ -52,5 +52,23 @@ namespace ElasticSearchAPI
                 }
             }
         }
+
+        /// <inheritdoc/> 
+        /// 
+
+        //TODO: Could be moved to a specialization class
+        public async Task<IEnumerable<long>> FindAsync(ObjectTextAPIFilter filter)
+        {
+            var response = await ElasticsearchClient.SearchAsync<ObjectTextData>(s => s
+                .Indices(Constants.OBJECT_TEST_INDEX_NAME)
+                .From(filter.From)
+                .Size(filter.Size)
+                .Query(q => q
+                    .Term(t => t
+                        .Field(x => x.TextTypeId)
+                        .Value(filter.TextTypeId))));
+
+            return response.Documents.Select(d => d.ObjectId);
+        }
     }
 }
