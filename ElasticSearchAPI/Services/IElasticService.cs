@@ -24,8 +24,6 @@ namespace ElasticSearchAPI
         /// <summary>
         /// Finds documents on Elastic based of a filter
         /// </summary>
-        /// <param name="filter"></param>
-        /// <returns></returns>
         Task<IEnumerable<ObjectTextData>> FindAsync(ObjectTextAPIFilter filter);
     }
 }
