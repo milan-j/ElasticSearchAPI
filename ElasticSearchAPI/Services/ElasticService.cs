@@ -3,7 +3,7 @@
 namespace ElasticSearchAPI
 {
     /// <inheritdoc/> 
-    public class ElasticService : IElasticService
+    public class ElasticService : IElasticService //TODO: Could be moved to a specialization class, and this one should become abstract
     {
         private readonly ElasticsearchClient ElasticsearchClient;
         private readonly ILogger Logger;
@@ -57,7 +57,7 @@ namespace ElasticSearchAPI
         /// 
 
         //TODO: Could be moved to a specialization class
-        public async Task<IEnumerable<long>> FindAsync(ObjectTextAPIFilter filter)
+        public async Task<IEnumerable<ObjectTextData>> FindAsync(ObjectTextAPIFilter filter)
         {
             var response = await ElasticsearchClient.SearchAsync<ObjectTextData>(s => s
                 .Indices(Constants.OBJECT_TEST_INDEX_NAME)
@@ -68,7 +68,7 @@ namespace ElasticSearchAPI
                         .Field(x => x.TextTypeId)
                         .Value(filter.TextTypeId))));
 
-            return response.Documents.Select(d => d.ObjectId);
+            return response.Documents;
         }
     }
 }

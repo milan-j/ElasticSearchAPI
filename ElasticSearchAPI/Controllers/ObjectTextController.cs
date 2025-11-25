@@ -8,10 +8,12 @@ namespace ElasticSearchAPI.Controllers
     public class ObjectTextController : ControllerBase
     {
         private readonly IObjectTextService ObjectTextService;
+        private readonly IElasticService ElasticService;
 
-        public ObjectTextController(IObjectTextService objectTextService)
+        public ObjectTextController(IObjectTextService objectTextService, IElasticService elasticService)
         {
             ObjectTextService = objectTextService;
+            ElasticService = elasticService;
         }
 
         /// <summary>
@@ -20,6 +22,7 @@ namespace ElasticSearchAPI.Controllers
         [HttpGet("")]
         public IEnumerable<ObjectTextData> Get()
         {
+            //TODO: Refactor to match Task<ObjectTextDataAPIResponse>
             return ObjectTextService.GetAllData();
         }
 
@@ -38,7 +41,7 @@ namespace ElasticSearchAPI.Controllers
         [HttpPost]
         public async Task<ObjectTextDataAPIResponse> Post([FromBody] ObjectTextAPIFilter ObjectTextfilter)
         {
-            return new ObjectTextDataAPIResponse { Objects = await ObjectTextService.GetDataByFilterAsync(ObjectTextfilter) };
+            return new ObjectTextDataAPIResponse { Objects = await ElasticService.FindAsync(ObjectTextfilter) };
         }
     }
 }

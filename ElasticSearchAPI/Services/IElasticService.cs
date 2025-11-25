@@ -22,10 +22,10 @@ namespace ElasticSearchAPI
         Task SeedAsync<T>(IEnumerable<T> objectCollection, string indexName);
 
         /// <summary>
-        /// Finds identifiers of Objects based of a filter
+        /// Finds documents on Elastic based of a filter
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        Task<IEnumerable<long>> FindAsync(ObjectTextAPIFilter filter);
+        Task<IEnumerable<ObjectTextData>> FindAsync(ObjectTextAPIFilter filter);
     }
 }
