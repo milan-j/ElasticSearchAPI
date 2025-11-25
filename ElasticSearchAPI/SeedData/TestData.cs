@@ -28,7 +28,7 @@
                     ObjectTypeId = 100,
                     Module = "Module A",
                     TextTypeId = 10,
-                    Text = "Srpski, krnja latinica, sisanje, djordjevic."
+                    Text = "Srpski, krnja latinica, sisanje, djordjevic, koje-kude."
                 },
                 new ObjectTextData
                 {
@@ -36,7 +36,7 @@
                     ObjectTypeId = 100,
                     Module = "Module A",
                     TextTypeId = 10,
-                    Text = "Српски, ћирилица, шишање, ђорђевић, које-kude."
+                    Text = "Српски, ћирилица, шишање, ђорђевић, које-куде."
                 },
                 new ObjectTextData
                 {

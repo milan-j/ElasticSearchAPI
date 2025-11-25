@@ -3,7 +3,7 @@
 namespace ElasticSearchAPI
 {
     /// <inheritdoc/> 
-    public class ElasticService : IElasticService //TODO: Could be moved to a specialization class, and this one should become abstract
+    public class ElasticService : IElasticService
     {
         private readonly ElasticsearchClient ElasticsearchClient;
         private readonly ILogger Logger;
@@ -15,7 +15,7 @@ namespace ElasticSearchAPI
         }
 
         /// <inheritdoc/> 
-        public async Task CreateAllIndecesAsync()        
+        public async Task CreateAllIndecesAsync()
         {
             await ElasticsearchClient.Indices.CreateAsync(Constants.OBJECT_TEST_INDEX_NAME,
                 ic => ic.Mappings(
@@ -53,9 +53,6 @@ namespace ElasticSearchAPI
         }
 
         /// <inheritdoc/> 
-        /// 
-
-        //TODO: Could be moved to a specialization class
         public async Task<IEnumerable<ObjectTextData>> FindAsync(ObjectTextAPIFilter filter)
         {
             var response = await ElasticsearchClient.SearchAsync<ObjectTextData>(s => s
@@ -68,21 +65,34 @@ namespace ElasticSearchAPI
 
             Elastic.Clients.Elasticsearch.QueryDsl.QueryDescriptor<ObjectTextData> QDBudilder(Elastic.Clients.Elasticsearch.QueryDsl.QueryDescriptor<ObjectTextData> q)
             {
-                q = q.Term(t => TQDBudilderByTextTypeId(t, filter.TextTypeId));
-                filter.Keywords?.Where(k => !string.IsNullOrEmpty(k)).ToList().ForEach(keyword => q = q.MultiMatch(m => MMQDBudilderByText(m, keyword)));
+                List<Action<Elastic.Clients.Elasticsearch.QueryDsl.QueryDescriptor<ObjectTextData>>> multiMatchByTextActions = [];
+                filter.Keywords?
+                    .Where(k => !string.IsNullOrEmpty(k))
+                    .Select(k => k.Trim())
+                    .ToList()
+                    .ForEach(keyword => multiMatchByTextActions.Add(q => q.MultiMatch(m => MMQDBudilderByText(m, keyword))));
 
-                return q;
+                return q.Bool(b => b
+                        .Must(multiMatchByTextActions.ToArray())
+                        .Filter(f => f.Term(t => TQDBudilderByTextTypeId(t, filter.TextTypeId)))
+                    );
             }
         }
 
-        protected Elastic.Clients.Elasticsearch.QueryDsl.TermQueryDescriptor<ObjectTextData> TQDBudilderByTextTypeId(Elastic.Clients.Elasticsearch.QueryDsl.TermQueryDescriptor<ObjectTextData> tqd, long filterValue)
+        /// <summary>
+        /// Uses a text type ID to create a Term Query Descriptor for searching the 'TextTypeId'.
+        /// </summary>
+        private Elastic.Clients.Elasticsearch.QueryDsl.TermQueryDescriptor<ObjectTextData> TQDBudilderByTextTypeId(Elastic.Clients.Elasticsearch.QueryDsl.TermQueryDescriptor<ObjectTextData> tqd, long filterValue)
         {
             return tqd
                 .Field(x => x.TextTypeId)
                 .Value(filterValue);
         }
 
-        protected Elastic.Clients.Elasticsearch.QueryDsl.MultiMatchQueryDescriptor<ObjectTextData> MMQDBudilderByText(Elastic.Clients.Elasticsearch.QueryDsl.MultiMatchQueryDescriptor<ObjectTextData> mqd, string filterValue)
+        /// <summary>
+        /// Uses a search term (keyword) to create a Multi Match Query descriptor for searching the 'Text' field in multiple language fields at the same time.
+        /// </summary>
+        private Elastic.Clients.Elasticsearch.QueryDsl.MultiMatchQueryDescriptor<ObjectTextData> MMQDBudilderByText(Elastic.Clients.Elasticsearch.QueryDsl.MultiMatchQueryDescriptor<ObjectTextData> mqd, string filterValue)
         {
             return mqd
                 .Fields(new Field[] { 
