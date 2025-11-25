@@ -15,7 +15,7 @@ namespace ElasticSearchAPI.Controllers
         }
 
         /// <summary>
-        /// Get all objects by applying filter.
+        /// Get all objects matching applied filter.
         /// </summary>
         [HttpPost]
         public async Task<ObjectTextDataAPIResponse> Post([FromBody] ObjectTextAPIFilter ObjectTextfilter)

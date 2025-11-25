@@ -1,6 +1,4 @@
-﻿using Elastic.Clients.Elasticsearch;
-
-namespace ElasticSearchAPI
+﻿namespace ElasticSearchAPI
 {
     /// <summary>
     /// Provides functionality to seed Index configuration and test data into Elastic Search.
@@ -9,7 +7,6 @@ namespace ElasticSearchAPI
     {
         private readonly IObjectTextService ObjectTextService;
         private readonly IElasticService ElasticService;
-
 
         public TestDataSeederService(
             IObjectTextService objectTextService,
@@ -26,7 +23,7 @@ namespace ElasticSearchAPI
         public async Task SeedAsync()
         {
             await DropRecreateAndConfigureElasticIndex();
-            await ElasticService.SeedAsync<ObjectTextData>(ObjectTextService.GetAllData(), Constants.OBJECT_TEST_INDEX_NAME);
+            await ElasticService.SeedAsync(ObjectTextService.GetAllData(), Constants.OBJECT_TEST_INDEX_NAME);
         }
 
         private async Task DropRecreateAndConfigureElasticIndex()
