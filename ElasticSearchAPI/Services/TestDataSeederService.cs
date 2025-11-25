@@ -5,42 +5,34 @@ namespace ElasticSearchAPI
     /// <summary>
     /// Provides functionality to seed Index configuration and test data into Elastic Search.
     /// </summary>
-
     public class TestDataSeederService
     {
-        private const string OBJECT_TEST_INDEX_NAME = "object_text_index"; //TODO: Move to config
-
         private readonly IObjectTextService ObjectTextService;
-        private readonly IElasticSearchConfigurationService ElasticSearchConfigurationService;
-        private readonly ElasticsearchClient ElasticsearchClient;
+        private readonly IElasticService ElasticService;
 
 
         public TestDataSeederService(
-            IObjectTextService objectTextService, 
-            IElasticSearchConfigurationService elasticSearchConfigurationService,
-            ElasticsearchClient elasticsearchClient)
+            IObjectTextService objectTextService,
+            IElasticService elasticService)
         {
             ObjectTextService = objectTextService;
-            ElasticSearchConfigurationService = elasticSearchConfigurationService;
-            ElasticsearchClient = elasticsearchClient;
+            ElasticService = elasticService;
         }
 
+        /// <summary>
+        /// Seeds initial test data into Elastic Search.
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedAsync()
         {
             await DropRecreateAndConfigureElasticIndex();
-            foreach (var objectText in ObjectTextService.GetAllData())
-            {
-                var r = await ElasticsearchClient.IndexAsync<ObjectTextData>(objectText, idx => idx.Index(OBJECT_TEST_INDEX_NAME));
-                //TODO: Log reponse
-            }
+            await ElasticService.SeedAsync<ObjectTextData>(ObjectTextService.GetAllData(), Constants.OBJECT_TEST_INDEX_NAME);
         }
 
         private async Task DropRecreateAndConfigureElasticIndex()
         {
-            await ElasticSearchConfigurationService.DropAllIndecesAsync();
-            //TODO: Should check if index is really dropped before recreating
-            await ElasticSearchConfigurationService.CreateAllIndecesAsync();
-            //TODO: Check if index is created again
+            await ElasticService.DropAllIndecesAsync();
+            await ElasticService.CreateAllIndecesAsync();
         }
     }
 }

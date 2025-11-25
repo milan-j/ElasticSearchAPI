@@ -58,7 +58,7 @@ void ConfigureElasticSearch()
 void RegisterCustomServices()
 {
     builder.Services.AddScoped<IObjectTextService, ObjectTextService>();
-    builder.Services.AddScoped<IElasticSearchConfigurationService, ElasticSearchConfigurationService>();
+    builder.Services.AddScoped<IElasticService, ElasticService>();
     builder.Services.AddScoped<TestDataSeederService>();
 
 }
