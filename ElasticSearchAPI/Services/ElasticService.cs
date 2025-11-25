@@ -27,7 +27,7 @@ namespace ElasticSearchAPI
                         .MatchOnlyText(o => o.Module)
                         .Text(o => o.Text, field => field.Fields(subFields => subFields
                             .Text(Language.Serbian.ToString().ToLower(), p => p.Analyzer(Language.Serbian.ToString().ToLower()))
-                            // More language specific analyzers can be added if needed
+                            //More language specific analyzers can be added if needed
                         )))));
         }
 
@@ -88,7 +88,7 @@ namespace ElasticSearchAPI
                 .Fields(new Field[] { 
                     Infer.Field<ObjectTextData>(f => f.Text),
                     $"{nameof(ObjectTextData.Text).ToLower()}.{Language.Serbian.ToString().ToLower()}"
-                    //More language specific searches could be added if needed
+                    //More, language specific, searches could be added if needed
                 })
                 .Query(filterValue);
         }

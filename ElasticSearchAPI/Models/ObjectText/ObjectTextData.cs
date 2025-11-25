@@ -31,11 +31,5 @@ namespace ElasticSearchAPI
         /// Gets or sets the text content.
         /// </summary>
         public string? Text { get; set; }
-
-        /// <summary>
-        /// Gets or sets the language in the text. Optional.
-        /// </summary>
-        [JsonIgnore]
-        public Language? TextLanguage { get; set; }
     }
 }
