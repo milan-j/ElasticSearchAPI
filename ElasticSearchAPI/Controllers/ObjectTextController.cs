@@ -7,32 +7,11 @@ namespace ElasticSearchAPI.Controllers
     [ApiController]
     public class ObjectTextController : ControllerBase
     {
-        private readonly IObjectTextService ObjectTextService;
         private readonly IElasticService ElasticService;
 
-        public ObjectTextController(IObjectTextService objectTextService, IElasticService elasticService)
+        public ObjectTextController(IElasticService elasticService)
         {
-            ObjectTextService = objectTextService;
             ElasticService = elasticService;
-        }
-
-        /// <summary>
-        /// Get all objects without filtering.
-        /// </summary>
-        [HttpGet("")]
-        public IEnumerable<ObjectTextData> Get()
-        {
-            //TODO: Refactor to match Task<ObjectTextDataAPIResponse>
-            return ObjectTextService.GetAllData();
-        }
-
-        /// <summary>
-        /// Get an object by it's identifier.
-        /// </summary>
-        [HttpGet("{id}")]
-        public ObjectTextData? Get(long id)
-        {
-            return ObjectTextService.GetDataById(id);
         }
 
         /// <summary>
