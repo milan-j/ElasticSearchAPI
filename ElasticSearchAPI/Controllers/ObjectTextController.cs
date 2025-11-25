@@ -32,7 +32,7 @@ namespace ElasticSearchAPI.Controllers
         }
 
         /// <summary>
-        /// Get all objects by filtering.
+        /// Get all objects by applying filter.
         /// </summary>
         [HttpPost]
         public IEnumerable<ObjectTextData> Post([FromBody] ObjectTextAPIFilter ObjectTextfilter)

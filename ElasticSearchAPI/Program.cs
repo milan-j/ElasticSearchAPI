@@ -3,7 +3,8 @@ using ElasticSearchAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IObjectTextService, ObjectTextService>();
+builder.Services.AddScoped<IObjectTextService, ObjectTextService>();
+builder.Services.AddScoped<TestDataSeederService>();
 
 builder.Services.AddControllers();
 
@@ -14,7 +15,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference();    
+    await app.SeedTestDataAsync();
 }
 
 app.UseHttpsRedirection();
