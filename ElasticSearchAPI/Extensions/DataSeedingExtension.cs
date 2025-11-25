@@ -18,7 +18,7 @@
             catch (Exception ex)
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred during seeding test data to Elastic Search during startup.");
+                logger.LogError(ex, Constants.ErrorMessages.ElasticSeedError);
                 throw;
             }
         }

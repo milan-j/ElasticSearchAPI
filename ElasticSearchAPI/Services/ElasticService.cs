@@ -6,10 +6,12 @@ namespace ElasticSearchAPI
     public class ElasticService : IElasticService
     {
         private readonly ElasticsearchClient ElasticsearchClient;
+        private readonly ILogger Logger;
 
-        public ElasticService(ElasticsearchClient elasticsearchClient)
+        public ElasticService(ElasticsearchClient elasticsearchClient, ILogger<ElasticService> logger)
         {
             ElasticsearchClient = elasticsearchClient;
+            Logger = logger;
         }
 
         /// <inheritdoc/> 
@@ -24,8 +26,8 @@ namespace ElasticSearchAPI
                         .LongNumber(o => o.ObjectTypeId)
                         .MatchOnlyText(o => o.Module)
                         .Text(o => o.Text, field => field.Fields(subFields => subFields
-                            .Text("serbian", p => p.Analyzer("serbian")) 
-                            .Text("english", p => p.Analyzer("english"))
+                            .Text(Language.Serbian.ToString().ToLower(), p => p.Analyzer(Language.Serbian.ToString().ToLower()))
+                            .Text(Language.English.ToString().ToLower(), p => p.Analyzer(Language.English.ToString().ToLower()))
                             // More language specific analyzers can be added if needed
                         )))));
         }
@@ -43,6 +45,11 @@ namespace ElasticSearchAPI
             foreach (T o in objectCollection)
             {
                 var r = await ElasticsearchClient.IndexAsync<T>(o, idx => idx.Index(indexName));
+
+                if (!r.IsValidResponse)
+                {
+                    Logger.LogError(Constants.ErrorMessages.ElasticIndexDocumentError, r.ElasticsearchServerError);
+                }
             }
         }
     }
