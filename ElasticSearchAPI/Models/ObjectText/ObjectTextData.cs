@@ -10,7 +10,7 @@ namespace ElasticSearchAPI
         /// <summary>
         /// Gets or sets the unique identifier for the object.
         /// </summary>
-        public int ObjectId { get; set; }
+        public long ObjectId { get; set; }
 
         /// <summary>
         /// Gets or sets the unique identifier for the object type associated with this instance.
