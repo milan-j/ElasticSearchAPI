@@ -19,8 +19,11 @@ API omogućava prosleđivanje filtera u sledećem obliku:
   }
   ```
 from : Otklon (Pogodno za implementaciju paginacije na frontu)
+
 size : Maksimalan broj rezultata u odgovoru servisa
+
 textTypeId : Vrednost Text Type identifikatora
+
 keywords : Jedna ili više kljucnih reči koje učestvuju u pretrazi
 
 Korišćenjem ugrađene Scalar API dokumentacije je moguće testirati API:
@@ -82,7 +85,7 @@ Kibana-9.2.1 (nije neophodna)
 
 Preuzeti Elastic Search za windows sa https://www.elastic.co/downloads/elasticsearch 
 
-Elastycsearch .yml konfiguraciju unutar elasticsearch-9.2.1\config foldera je nakon preuzimanja potrebno modifikovati i modifikovati "xpack.security.enabled: false", kako bi bilo moguće uspostaviti jednustavnu komunikaciju između aplikacije ili Kibane sa Elastikom.
+Elastycsearch .yml konfiguraciju unutar elasticsearch-9.2.1\config foldera je nakon preuzimanja potrebno modifikovati "xpack.security.enabled: false", kako bi bilo moguće uspostaviti jednostavnu komunikaciju između aplikacije ili Kibane sa Elastikom.
 
 Pokrenuti Elastic kroz konzolu pozivanjem elasticsearch-9.2.1\bin\elasticsearch.bat
 
