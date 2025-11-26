@@ -2,10 +2,6 @@
 
 API omogućava pretragu predefinisanog Elastic Search indeksa po zadatom kriterijumu.
 
-## Tehnologije 
-
-.NET 10, ElasticSearch-9.2.1
-
 ##  Osnovna ideja
 
 Indeks sadrži sledeća polja (fields): Module (MatchOnlyText), ObjectTypeId (LongNumber), ObjectId (LongNumber), TextTypeId (Keyword), Text (Text).
@@ -74,15 +70,33 @@ Ukoliko je potrebno da sistem detektuje i takve oblike, neispravnog teksta, potr
 
 <img width="1305" height="672" alt="image" src="https://github.com/user-attachments/assets/3d8632fd-5df9-40a7-8367-ae5736c46cf5" />
 
+## Tehnologije 
 
+.NET 10
+ElasticSearch-9.2.1
+Kibana-9.2.1 (nije neophodna)
 
+## Uputstvo za instalaciju
 
+Preuzeti Elastic Search za windows sa https://www.elastic.co/downloads/elasticsearch 
 
+Elastycsearch .yml konfiguraciju unutar elasticsearch-9.2.1\config foldera je nakon preuzimanja potrebno modifikovati i modifikovati "xpack.security.enabled: false", kako bi bilo moguće uspostaviti jednustavnu komunikaciju između aplikacije ili Kibane sa Elastikom.
 
+Pokrenuti Elastic kroz konzolu pozivanjem elasticsearch-9.2.1\bin\elasticsearch.bat
 
+Aplikacija je konfigurisana tako da kontaktira difoltni port 9200 na Elastik Serveru (http://localhost:9200).
 
+API nakon pokretanja is VS u debug modu, otvara stranicu https://localhost:7139/scalar/v1 gde je moguće testirati endpoint.
 
+Index i testni podaci su automatski učitani na Elastic nakon pokretanja.
 
+Logovi se prikazuju u konzolnom prozoru, pa ukoliko aplikacija ima problem da kontaktira Elastic Server, konsultovati log.
+
+Opciono je moguće preuzeti i Kibanu i pokrenuti je bez dodatnih podešavanja kroz kibana-9.2.1\bin\kiubana.bat
+
+## Auth 
+
+Trenutno nije implementirana, endpoint je public.
 
 
 
