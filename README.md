@@ -73,7 +73,9 @@ Ukoliko je potrebno da sistem detektuje i takve oblike, neispravnog teksta, potr
 ## Tehnologije 
 
 .NET 10
+
 ElasticSearch-9.2.1
+
 Kibana-9.2.1 (nije neophodna)
 
 ## Uputstvo za instalaciju
