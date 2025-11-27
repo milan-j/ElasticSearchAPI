@@ -55,7 +55,7 @@ Aplikacija trenutno omogućava korišćenje napredne pretrage prema srpskom jezi
 
 Benefiti ovog pristupa su sposobnost pretrage reči, nezavisno od toga da li je tekst zapisan u punom latiničnom, ćiriličnom ili krnjem latiničnom pismu (bez kukica).
 
-Kako se u Elastiku sadržaj teksta skladišti kao multi-field (pomoćno polje, polja Text označenog na indeksu kao text.serbian) ovu opciju moguće isključiti ili konfigurisati za drugi ili više jezika u isto vreme.
+Kako se u Elastiku sadržaj teksta skladišti kao multi-field (pomoćno polje, polja Text označenog na indeksu kao text.serbian), ovu opciju je moguće jednostavno aktivirati, deaktivirati ili konfigurisati za pretragu po drugom ili čak više drugih jezika u isto vreme.
 
 U samom filteru pretrage, po trenutnoj implementaciji, nije potrebno navesti jezik na kome se vrši pretraga, jer sistem u isto vreme pretražuje sva postojeća pod polja i vraća rezultat prema definisanom jeziku na njima.
 
@@ -65,7 +65,7 @@ U samom filteru pretrage, po trenutnoj implementaciji, nije potrebno navesti jez
 
 <img width="1303" height="656" alt="image" src="https://github.com/user-attachments/assets/78928283-79b3-4e36-8127-f1363e7d44de" />
 
-Ovim pristupom nije moguće detektovati krnje oblike latinice koji umesti ispravnog oblika jednog karaktera (đ), koriste više karaktera (dj), kao u primeru reči "djordjevic".
+Ovim pristupom nije moguće detektovati krnje oblike latinice koji umesto ispravnog oblika jednog karaktera (đ), koriste više karaktera (dj), kao u primeru reči "djordjevic".
 
 Ukoliko je potrebno da sistem detektuje i takve oblike, neispravnog teksta, potrebno je izraditi neku vrstu konvertera koji bi vršio specijalnu pretragu i po takvim slučajevima.
 
