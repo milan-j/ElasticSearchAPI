@@ -101,7 +101,19 @@ Opciono je moguće preuzeti i Kibanu i pokrenuti je bez dodatnih podešavanja kr
 
 ## Auth 
 
-Trenutno nije implementirana, endpoint je public.
+Generisanje tokena. 
+
+<img width="1248" height="632" alt="image" src="https://github.com/user-attachments/assets/a0320df4-3da2-4b13-8f50-f0e77f36974a" />
+
+Username: admin, Password: pass
+
+Upotreba tokena:
+
+<img width="1240" height="685" alt="image" src="https://github.com/user-attachments/assets/169ce619-e032-4608-abb2-e1857ccf7b54" />
+
+
+
+
 
 
 
